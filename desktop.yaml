@@ -150,6 +150,33 @@
         create: yes
         backup: yes
 
+
+    - name: Ensure background_opacity is set to 0.9 in kitty.conf
+      ansible.builtin.lineinfile:
+        path: "{{ ansible_env.HOME }}/.config/kitty/kitty.conf"
+        regexp: '^background_opacity\s+'
+        line: 'background_opacity 0.9'
+        create: yes
+    
+    
+    - name: Add starship init to .bashrc
+      ansible.builtin.lineinfile:
+        path: "{{ ansible_env.HOME }}/.bashrc"
+        regexp: '^eval "\$\(\s*starship init bash\s*\)"'
+        line: 'eval "$(starship init bash)"'
+        create: yes
+    
+    - name: Set font_family in kitty.conf to Caskaydia Cove Nerd Font
+      ansible.builtin.lineinfile:
+        path: "{{ ansible_env.HOME }}/.config/kitty/kitty.conf"
+        regexp: '^font_family\s+'
+        line: 'font_family Caskaydia Cove Nerd Font'
+        create: yes
+
+
+
+
+
  #   - name: Install AUR packages with yay
  #     become: false
  #     become_user: "{{ user_name }}"
