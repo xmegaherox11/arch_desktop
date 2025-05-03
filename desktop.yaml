@@ -173,7 +173,23 @@
         line: 'font_family Caskaydia Cove Nerd Font'
         create: yes
 
-
+    
+    - name: Stow all desired dotfiles
+      ansible.builtin.shell: |
+        stow {{ item }}
+      args:
+        chdir: "{{ ansible_env.HOME }}/dotfiles"
+      loop:
+        - kitty
+        - hyprlock
+        - hyprpaper
+        - nvim
+        - wofi
+        - backgrounds
+        - hyprland
+        - hyprmocha
+        - waybar
+        - starship
 
 
 
