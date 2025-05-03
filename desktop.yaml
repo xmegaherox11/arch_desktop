@@ -147,7 +147,7 @@
       ansible.builtin.shell: |
         stow {{ item }}
       args:
-        chdir: "/home/{{user_name}}/dotfiles"
+        chdir: "/home/{{user_name}}/dotfile"
       loop:
         - kitty
         - hyprlock
