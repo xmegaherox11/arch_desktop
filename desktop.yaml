@@ -1,0 +1,161 @@
+- name: Arch Linux AUR-only desktop setup
+  hosts: localhost
+  become: true
+  vars:
+    user_name: xmegaherox11
+
+  tasks:
+    - name: Enable multilib repository and uncomment mirrorlist
+      blockinfile:
+        path: /etc/pacman.conf
+        block: |
+          [multilib]
+          Include = /etc/pacman.d/mirrorlist
+        marker: "# {mark} MULTILIB REPO"
+
+    - name: Update package databases and system
+      pacman:
+        update_cache: yes
+        upgrade: yes
+    
+    - name: Force refresh package databases
+      pacman:
+        update_cache: yes
+        force: yes
+
+    - name: Set GRUB timeout to 0 for immediate boot
+      become: yes
+      lineinfile:
+        path: /etc/default/grub
+        regexp: '^GRUB_TIMEOUT='
+        line: 'GRUB_TIMEOUT=0'
+        create: yes
+      notify: Update grub config
+    
+    - name: Install Hyprland Stuff
+      pacman:
+        name:
+          - hyprland # hyprland
+          - neovim # text editor
+          - kitty # terminal
+          - wofi # app launcher
+          - dolphin # file browser
+          - hyprpaper # wallpaper
+          - hyprlock # lockscreen
+          - waybar # top bar
+          - nwg-look # theme for gtk apps
+          - swaync # notification tool
+          - hypridle # idle
+          - hyprcursor # cursor
+          - hyprsunset # blue light filter
+          - pipewire # screen sharing
+          - xdg-desktop-portal-hyprland # screen sharing
+          - starship # terminal theming
+          - ttf-cascadia-code-nerd # font
+        state: present
+
+    - name: Clone Dotfiles Git Repo
+      ansible.builtin.git:
+        repo: 'https://github.com/typecraft-dev/dotfiles.git'
+        dest: "/home/{{ user_name }}/dotfile"
+        clone: yes
+
+    - name: Install Drivers
+      pacman:
+        name:
+          - stow
+          - base-devel
+          - git
+          - ansible
+          - mesa
+          - lib32-mesa
+          - vulkan-radeon
+          - lib32-vulkan-radeon
+          - libva-mesa-driver
+          - lib32-libva-mesa-driver
+          - libva-utils
+
+    - name: Install Software
+      pacman:
+        name:
+         - vlc
+         - discord
+         - libreoffice-fresh
+         - nextcloud-client
+         - lutris
+         - bitwarden
+         - firefox
+         - steam
+        state: present
+
+    - name: Check if yay is already installed
+      register: yay_installed
+      changed_when: false
+      failed_when: false
+      ansible.builtin.command: which yay
+    
+    - name: Clone yay from AUR
+      become: true
+      git:
+        repo: https://aur.archlinux.org/yay.git
+        dest: "/home/{{ user_name }}/yay"
+        clone: yes
+      when: yay_installed.rc != 0
+    
+    - name: Ensure yay directory is owned by the user
+      become: true
+      file:
+        path: "/home/{{ user_name }}/yay"
+        owner: "{{ user_name }}"
+        group: "{{ user_name }}"
+        recurse: yes
+      when: yay_installed.rc != 0
+    
+    - name: Build and install yay
+      become: false
+      become_user: "{{ user_name }}"
+      shell: |
+        cd /home/{{ user_name }}/yay
+        makepkg -si --noconfirm
+      environment:
+        BUILDDIR: "/home/{{ user_name }}/yay"
+      when: yay_installed.rc != 0
+
+    - name: Ensure .bash_profile contains Hyprland autostart
+      become: true
+      lineinfile:
+        path: "/home/{{ user_name }}/.bash_profile"
+        line: '[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec Hyprland'
+        create: yes
+        state: present
+
+    - name: Create Wayland session file for Hyprland
+      become: true
+      copy:
+        dest: /usr/share/wayland-sessions/hyprland.desktop
+        content: |
+          [Desktop Entry]
+          Name=Hyprland
+          Comment=An intelligent dynamic tiling Wayland compositor
+          Exec=Hyprland
+          Type=Application
+          DesktopNames=Hyprland
+        mode: '0644'
+
+    - name: Install AUR packages with yay
+      become: false
+      become_user: "{{ user_name }}"
+      command: yay -S --noconfirm hyprsysteminfo hyprpicker-git catpuccin-gtk-theme-mocha hyprshot wireplumbe plex-desktop plexamp
+
+    - name: Set the system time zone to Berlin
+      command:
+        cmd: timedatectl set-timezone Europe/Berlin
+
+    - name: Set the system keyboard layout to German
+      command:
+        cmd: localectl set-keymap de
+
+  handlers:
+    - name: Update grub config
+      become: yes
+      command: grub-mkconfig -o /boot/grub/grub.cfg
