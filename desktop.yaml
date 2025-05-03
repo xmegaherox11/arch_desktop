@@ -155,11 +155,9 @@
         - nvim
         - wofi
         - backgrounds
-        - hyprland
         - hyprmocha
         - waybar
         - starship
-
 
     - name: Set Hyprland keyboard layout to 'de'
       ansible.builtin.lineinfile:
