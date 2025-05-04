@@ -65,6 +65,10 @@
     - name: Install Drivers
       pacman:
         name:
+          - flatpak
+          - gum
+          - jq
+          - wget
           - cups
           - stow
           - base-devel
@@ -202,7 +206,7 @@
  #   - name: Install AUR packages with yay
  #     become: false
  #     become_user: "{{ user_name }}"
- #     command: yay -S --noconfirm hyprsysteminfo hyprpicker-git catpuccin-gtk-theme-mocha hyprshot wireplumbe jellyfin finamp
+ #     command: yay -S --noconfirm iwmenu-git bzmenu-git hyprsysteminfo hyprpicker-git catpuccin-gtk-theme-mocha hyprshot wireplumbe jellyfin-media-player finamp 
 
     - name: Set the system time zone to Berlin
       command:
