@@ -65,6 +65,8 @@
     - name: Install Drivers
       pacman:
         name:
+          - zip
+          - unzip
           - flatpak
           - gum
           - jq
