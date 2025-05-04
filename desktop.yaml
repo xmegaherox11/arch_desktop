@@ -52,6 +52,7 @@
           - xdg-desktop-portal-hyprland # screen sharing
           - starship # terminal theming
           - ttf-cascadia-code-nerd # font
+          - kdegraphics-thumbnailers # thumbnails in dolphin
         state: present
 
     - name: Clone Dotfiles Git Repo
@@ -64,6 +65,7 @@
     - name: Install Drivers
       pacman:
         name:
+          - cups
           - stow
           - base-devel
           - git
