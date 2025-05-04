@@ -79,6 +79,8 @@
     - name: Install Software
       pacman:
         name:
+         - rclone
+         - gimp
          - vlc
          - discord
          - libreoffice-fresh
@@ -198,7 +200,7 @@
  #   - name: Install AUR packages with yay
  #     become: false
  #     become_user: "{{ user_name }}"
- #     command: yay -S --noconfirm hyprsysteminfo hyprpicker-git catpuccin-gtk-theme-mocha hyprshot wireplumbe plex-desktop plexamp
+ #     command: yay -S --noconfirm hyprsysteminfo hyprpicker-git catpuccin-gtk-theme-mocha hyprshot wireplumbe jellyfin finamp
 
     - name: Set the system time zone to Berlin
       command:
