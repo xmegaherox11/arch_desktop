@@ -67,7 +67,7 @@
         - bitwarden
         - steam
         - jellyfin-media-player
-        - finamp
+        - finamp-bin
         - vesktop
         #- ygo-omega
         - firefox
@@ -111,40 +111,6 @@
         - kdegraphics-thumbnailers # thumbnails in dolphin
       loop_control:
         label: "{{ item }}"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
 
     - name: Ensure .bash_profile contains Hyprland autostart
       become: true
