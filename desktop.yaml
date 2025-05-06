@@ -219,6 +219,7 @@
     
     - name: Install Jellyfin
       become: no
+      become_user: "{{ user_name }}"
       yay: 
         name: jellyfin-media-player
         state: present  
