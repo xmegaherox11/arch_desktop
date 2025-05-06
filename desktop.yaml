@@ -212,39 +212,17 @@
 #      ansible.builtin.shell: yay -S --noconfirm emudeck
 #      when: emudeck_check.rc != 0
     
-    - name: Install Jellyfin
-      yay: 
-        name: jellyfin-media-player
+    - name: Install {{ item }}
+      loop:
+        - jellyfin-media-player
+        - jellyfin-amp
+        - vesktop
+      loop_control:
+        label: "{{ item }}"
+      yay:
+        name: "{{ item }}"
         state: present
-      become: yes
-      become_user: xmegaherox11
 
-  #    ansible.builtin.shell: yay -S --noconfirm jellyfin
-  #    when: jellyfin_check.rc != 0
-
-    - name: Check if jellyfin-amp is installed
-      ansible.builtin.shell: pacman -Qi jellyfin-amp
-      register: jellyfin_amp_check
-      failed_when: false
-      changed_when: false
-    
-    - name: Install jellyfin-amp via yay if not installed
-      become: no
-      become_user: "{{ user_name }}"
-      ansible.builtin.shell: yay -S --noconfirm jellyfin-amp
-      when: jellyfin_amp_check.rc != 0
-
-    - name: Check if vesktop is installed (Discord)
-      ansible.builtin.shell: pacman -Qi vesktop
-      register: vesktop_check
-      become_user: "{{ user_name }}"
-      failed_when: false
-      changed_when: false
-    
-    - name: Install vesktop via yay if not installed
-      become: no
-      ansible.builtin.shell: yay -S --noconfirm vesktop
-      when: vesktop_check.rc != 0
 
     - name: re-enable need for password for pacman
       file:
