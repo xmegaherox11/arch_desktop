@@ -224,10 +224,13 @@
       changed_when: false
     
     - name: Install jellyfin via yay if not installed
-      become: no
-      become_user: "{{ user_name }}"
-      ansible.builtin.shell: yay -S --noconfirm jellyfin
-      when: jellyfin_check.rc != 0
+      yay: 
+        name: jellyfin 
+        state: present  
+  #    become: no
+  #    become_user: "{{ user_name }}"
+  #    ansible.builtin.shell: yay -S --noconfirm jellyfin
+  #    when: jellyfin_check.rc != 0
 
     - name: Check if jellyfin-amp is installed
       ansible.builtin.shell: pacman -Qi jellyfin-amp
