@@ -177,6 +177,15 @@
       stat:
         path: "/home/{{ user_name }}/omega"
       register: omega_folder
+    
+    - name: Create omega folder if it does not exist
+      file:
+        path: "/home/{{ user_name }}/omega"
+        state: directory
+        mode: '0755'
+        owner: "{{ user_name }}"
+        group: "{{ user_name }}"
+      when: not omega_folder.stat.exists
 
     - name: Ensure unzip is installed
       package:
