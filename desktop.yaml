@@ -23,77 +23,6 @@
         update_cache: yes
         force: yes
 
-    - name: Set GRUB timeout to 0 for immediate boot
-      become: yes
-      lineinfile:
-        path: /etc/default/grub
-        regexp: '^GRUB_TIMEOUT='
-        line: 'GRUB_TIMEOUT=0'
-        create: yes
-      notify: Update grub config
-    
-    - name: Install Hyprland Stuff
-      pacman:
-        name:
-          - hyprland # hyprland
-          - neovim # text editor
-          - kitty # terminal
-          - rofi # app launcher      
-          - thunar # file browser
-          - thunar-archive-plugin  # file browser archive
-          - hyprpaper # wallpaper
-          - hyprlock # lockscreen
-          - waybar # top bar
-          - nwg-look # theme for gtk apps
-          - swaync # notification tool
-          - hypridle # idle
-          - hyprcursor # cursor
-          - hyprsunset # blue light filter
-          - pipewire # screen sharing
-          - xdg-desktop-portal-hyprland # screen sharing
-          - starship # terminal theming
-          - ttf-cascadia-code-nerd # font
-          - kdegraphics-thumbnailers # thumbnails in dolphin
-        state: present
-
-    - name: Install Drivers
-      pacman:
-        name:
-          - htop 
-          - libarchive
-          - pipewire # audio
-          - pipewire-pulse # audio
-          - blueman # bluetooth
-          - bluez # bluetooth
-          - bluez-utils # bluetooth
-          - brightnessctl # brightness
-          - cups
-          - base-devel
-          - git
-          - ansible
-          - mesa
-          - lib32-mesa
-          - vulkan-radeon
-          - lib32-vulkan-radeon
-          - libva-mesa-driver
-          - lib32-libva-mesa-driver
-          - libva-utils
-
-    - name: Install Software
-      pacman:
-        name:
-         - rclone
-       #  - gimp
-         - vlc
-         - libreoffice-fresh
-         - nextcloud-client
-         - lutris
-         - bitwarden
-         - firefox
-         - steam
-        # - chromium
-        state: present
-
     - name: disable need for password for pacman to allow yay install
       lineinfile:
         path: /etc/sudoers.d/temp_allow_no_pswd_pacman
@@ -125,6 +54,68 @@
       shell: yay -Y --answerclean All --removemake --cleanafter --save
       args:
         executable: /usr/bin/bash
+
+    - name: Install Drivers
+      pacman:
+        name:
+          - htop 
+          - libarchive
+          - pipewire # audio
+          - pipewire-pulse # audio
+          - blueman # bluetooth
+          - bluez # bluetooth
+          - bluez-utils # bluetooth
+          - brightnessctl # brightness
+          - cups
+          - base-devel
+          - git
+          - ansible
+          - mesa
+          - lib32-mesa
+          - vulkan-radeon
+          - lib32-vulkan-radeon
+          - libva-mesa-driver
+          - lib32-libva-mesa-driver
+          - libva-utils
+
+    - name: Install Hyprland Stuff
+      pacman:
+        name:
+          - hyprland # hyprland
+          - neovim # text editor
+          - kitty # terminal
+          - rofi # app launcher      
+          - thunar # file browser
+          - thunar-archive-plugin  # file browser archive
+          - hyprpaper # wallpaper
+          - hyprlock # lockscreen
+          - waybar # top bar
+          - nwg-look # theme for gtk apps
+          - swaync # notification tool
+          - hypridle # idle
+          - hyprcursor # cursor
+          - hyprsunset # blue light filter
+          - pipewire # screen sharing
+          - xdg-desktop-portal-hyprland # screen sharing
+          - starship # terminal theming
+          - ttf-cascadia-code-nerd # font
+          - kdegraphics-thumbnailers # thumbnails in dolphin
+        state: present
+
+      - name: Install Software
+        pacman:
+          name:
+           - rclone
+         #  - gimp
+           - vlc
+           - libreoffice-fresh
+           - nextcloud-client
+           - lutris
+           - bitwarden
+           - firefox
+           - steam
+          # - chromium
+          state: present
 
     - name: Ensure .bash_profile contains Hyprland autostart
       become: true
@@ -234,6 +225,7 @@
     
     - name: Install jellyfin via yay if not installed
       become: no
+      become_user: "{{ user_name }}"
       ansible.builtin.shell: yay -S --noconfirm jellyfin
       when: jellyfin_check.rc != 0
 
@@ -245,12 +237,14 @@
     
     - name: Install jellyfin-amp via yay if not installed
       become: no
+      become_user: "{{ user_name }}"
       ansible.builtin.shell: yay -S --noconfirm jellyfin-amp
       when: jellyfin_amp_check.rc != 0
 
-    - name: Check if vesktop is installed
+    - name: Check if vesktop is installed (Discord)
       ansible.builtin.shell: pacman -Qi vesktop
       register: vesktop_check
+      become_user: "{{ user_name }}"
       failed_when: false
       changed_when: false
     
@@ -258,8 +252,3 @@
       become: no
       ansible.builtin.shell: yay -S --noconfirm vesktop
       when: vesktop_check.rc != 0
-        
-  handlers:
-    - name: Update grub config
-      become: yes
-      command: grub-mkconfig -o /boot/grub/grub.cfg
