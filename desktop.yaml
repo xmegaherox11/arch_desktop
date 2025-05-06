@@ -212,16 +212,19 @@
 #      ansible.builtin.shell: yay -S --noconfirm emudeck
 #      when: emudeck_check.rc != 0
     
-    - name: Install {{ item }}
+    - name: Install packages from AUR
+      ansible.builtin.block:
+        - name: "Installing {{ item }}"
+          yay:
+            name: "{{ item }}"
+            state: present
       loop:
         - jellyfin-media-player
-        - jellyfin-amp
+        - finamp
         - vesktop
       loop_control:
         label: "{{ item }}"
-      yay:
-        name: "{{ item }}"
-        state: present
+
 
 
     - name: re-enable need for password for pacman
