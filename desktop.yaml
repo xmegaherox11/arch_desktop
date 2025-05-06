@@ -224,8 +224,6 @@
     
 #    - name: Install emudeck via yay if not installed
 #      ansible.builtin.shell: yay -S --noconfirm emudeck
-#      args:
-#        executable: /bin/bash
 #      when: emudeck_check.rc != 0
 
     - name: Check if jellyfin is installed
@@ -236,8 +234,6 @@
     
     - name: Install jellyfin via yay if not installed
       ansible.builtin.shell: yay -S --noconfirm jellyfin
-      args:
-        executable: /bin/bash
       when: jellyfin_check.rc != 0
 
     - name: Check if jellyfin-amp is installed
@@ -248,8 +244,6 @@
     
     - name: Install jellyfin-amp via yay if not installed
       ansible.builtin.shell: yay -S --noconfirm jellyfin-amp
-      args:
-        executable: /bin/bash
       when: jellyfin_amp_check.rc != 0
 
     - name: Check if vesktop is installed
@@ -260,8 +254,6 @@
     
     - name: Install vesktop via yay if not installed
       ansible.builtin.shell: yay -S --noconfirm vesktop
-      args:
-        executable: /bin/bash
       when: vesktop_check.rc != 0
         
   handlers:
