@@ -50,6 +50,102 @@
       args:
         executable: /usr/bin/bash
 
+
+
+
+    - name: Install AUR packages
+          yay:
+            name: "{{ item }}"
+            state: present
+          loop:
+            - rclone
+            - gimp
+            - vlc
+            - libreoffice-fresh
+            - nextcloud-client
+            - lutris
+            - bitwarden
+            - steam
+            - jellyfin-media-player
+            - finamp
+            - vesktop
+            #- ygo-omega
+            - firefox
+            - htop 
+            - libarchive
+            - pipewire # audio
+            - pipewire-pulse # audio
+            - blueman # bluetooth
+            - bluez # bluetooth
+            - bluez-utils # bluetooth
+            - brightnessctl # brightness
+            - cups
+            - base-devel
+            - git
+            - ansible
+            - mesa
+            - lib32-mesa
+            - vulkan-radeon
+            - lib32-vulkan-radeon
+            - libva-mesa-driver
+            - lib32-libva-mesa-driver
+            - libva-utils
+            - hyprland # hyprland
+            - neovim # text editor
+            - kitty # terminal
+            - rofi # app launcher      
+            - thunar # file browser
+            - thunar-archive-plugin  # file browser archive
+            - hyprpaper # wallpaper
+            - hyprlock # lockscreen
+            - waybar # top bar
+            - nwg-look # theme for gtk apps
+            - swaync # notification tool
+            - hypridle # idle
+            - hyprcursor # cursor
+            - hyprsunset # blue light filter
+            - pipewire # screen sharing
+            - xdg-desktop-portal-hyprland # screen sharing
+            - starship # terminal theming
+            - ttf-cascadia-code-nerd # font
+            - kdegraphics-thumbnailers # thumbnails in dolphin
+          loop_control:
+            label: "{{ item }}"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
     - name: Ensure .bash_profile contains Hyprland autostart
       become: true
       lineinfile:
@@ -96,62 +192,3 @@
     - name: Set the system keyboard layout to German
       command:
         cmd: localectl set-keymap de
-    
-    - name: Install AUR packages
-      yay:
-        name: "{{ item }}"
-        state: present
-      loop:
-        - rclone
-        - gimp
-        - vlc
-        - libreoffice-fresh
-        - nextcloud-client
-        - lutris
-        - bitwarden
-        - steam
-        - jellyfin-media-player
-        #- finamp
-        - vesktop
-        - ygo-omega
-        - firefox
-        - htop 
-        - libarchive
-        - pipewire # audio
-        - pipewire-pulse # audio
-        - blueman # bluetooth
-        - bluez # bluetooth
-        - bluez-utils # bluetooth
-        - brightnessctl # brightness
-        - cups
-        - base-devel
-        - git
-        - ansible
-        - mesa
-        - lib32-mesa
-        - vulkan-radeon
-        - lib32-vulkan-radeon
-        - libva-mesa-driver
-        - lib32-libva-mesa-driver
-        - libva-utils
-        - hyprland # hyprland
-        - neovim # text editor
-        - kitty # terminal
-        - rofi # app launcher      
-        - thunar # file browser
-        - thunar-archive-plugin  # file browser archive
-        - hyprpaper # wallpaper
-        - hyprlock # lockscreen
-        - waybar # top bar
-        - nwg-look # theme for gtk apps
-        - swaync # notification tool
-        - hypridle # idle
-        - hyprcursor # cursor
-        - hyprsunset # blue light filter
-        - pipewire # screen sharing
-        - xdg-desktop-portal-hyprland # screen sharing
-        - starship # terminal theming
-        - ttf-cascadia-code-nerd # font
-        - kdegraphics-thumbnailers # thumbnails in dolphin
-      loop_control:
-        label: "{{ item }}"
