@@ -109,13 +109,11 @@
         dest: /tmp/yay-bin
         clone: yes
 
-    - name: install yay using makepkg
+    - name: Install yay using makepkg
       become: no
-      expect:
+      shell: makepkg -si --noconfirm
+      args:
         chdir: /tmp/yay-bin
-        command: makepkg -si
-        responses:
-          (?i)Proceed with installation: "y"
 
     - name: re-enable need for password for pacman
       file:
