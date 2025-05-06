@@ -102,20 +102,20 @@
           - kdegraphics-thumbnailers # thumbnails in dolphin
         state: present
 
-      - name: Install Software
-        pacman:
-          name:
-           - rclone
-         #  - gimp
-           - vlc
-           - libreoffice-fresh
-           - nextcloud-client
-           - lutris
-           - bitwarden
-           - firefox
-           - steam
-          # - chromium
-          state: present
+    - name: Install Software
+      pacman:
+        name:
+         - rclone
+       #  - gimp
+         - vlc
+         - libreoffice-fresh
+         - nextcloud-client
+         - lutris
+         - bitwarden
+         - firefox
+         - steam
+        # - chromium
+        state: present
 
     - name: Ensure .bash_profile contains Hyprland autostart
       become: true
