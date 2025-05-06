@@ -55,7 +55,17 @@
         - rclone
         - gimp
         - vlc
-        - emudeck-bin
+        - ryujinx
+        - pcsx2
+        - epsxe
+        - mgba
+        - snes9x
+        - rpcs3
+        - mupen64plus
+        - dolphin-emu
+        - fceux
+        - steam-rom-manager-bin
+        - minecraft-launcher
         - libreoffice-fresh
         - nextcloud-client
         - lutris
@@ -104,5 +114,6 @@
         - starship # terminal theming
         - ttf-cascadia-code-nerd # font
         - kdegraphics-thumbnailers # thumbnails in dolphin
+        - bibata-cursor-theme
       loop_control:
         label: "{{ item }}"
