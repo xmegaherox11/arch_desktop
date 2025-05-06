@@ -111,7 +111,7 @@
         - bitwarden
         - steam
         - jellyfin-media-player
-        - finamp
+        #- finamp
         - vesktop
         - ygo-omega
         - firefox
