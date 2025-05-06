@@ -233,6 +233,7 @@
       changed_when: false
     
     - name: Install jellyfin via yay if not installed
+      become: no
       ansible.builtin.shell: yay -S --noconfirm jellyfin
       when: jellyfin_check.rc != 0
 
@@ -243,6 +244,7 @@
       changed_when: false
     
     - name: Install jellyfin-amp via yay if not installed
+      become: no
       ansible.builtin.shell: yay -S --noconfirm jellyfin-amp
       when: jellyfin_amp_check.rc != 0
 
@@ -253,6 +255,7 @@
       changed_when: false
     
     - name: Install vesktop via yay if not installed
+      become: no
       ansible.builtin.shell: yay -S --noconfirm vesktop
       when: vesktop_check.rc != 0
         
