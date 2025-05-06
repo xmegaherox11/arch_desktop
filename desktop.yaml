@@ -218,8 +218,6 @@
 #      when: emudeck_check.rc != 0
     
     - name: Install Jellyfin
-      become: no
-      become_user: "{{ user_name }}"
       yay: 
         name: jellyfin-media-player
         state: present  
