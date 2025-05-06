@@ -83,7 +83,7 @@
       pacman:
         name:
          - rclone
-         - gimp
+       #  - gimp
          - vlc
          - libreoffice-fresh
          - nextcloud-client
@@ -91,7 +91,7 @@
          - bitwarden
          - firefox
          - steam
-         - chromium
+        # - chromium
         state: present
 
     - name: disable need for password for pacman to allow yay install
