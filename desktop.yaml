@@ -201,29 +201,18 @@
       become: yes
       become_user: "{{ user_name }}"
       when: omega_folder_contents.matched == 0
-
-#    - name: Check if emudeck is installed
-#      ansible.builtin.shell: pacman -Qi emudeck
-#      register: emudeck_check
-#      failed_when: false
-#      changed_when: false
     
-#    - name: Install emudeck via yay if not installed
-#      ansible.builtin.shell: yay -S --noconfirm emudeck
-#      when: emudeck_check.rc != 0
-    
-    - name: Install packages from AUR
-      ansible.builtin.block:
-        - name: "Installing {{ item }}"
-          yay:
-            name: "{{ item }}"
-            state: present
+    - name: Install AUR packages
+      yay:
+        name: "{{ item }}"
+        state: present
       loop:
         - jellyfin-media-player
         - finamp
         - vesktop
       loop_control:
         label: "{{ item }}"
+
 
 
 
