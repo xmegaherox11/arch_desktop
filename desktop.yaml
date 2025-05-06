@@ -44,11 +44,6 @@
       args:
         chdir: /tmp/yay-bin
 
-    - name: re-enable need for password for pacman
-      file:
-        path: /etc/sudoers.d/temp_allow_no_pswd_pacman
-        state: absent
-
     - name: set yay options to cleanafter package installation
       become: no
       shell: yay -Y --answerclean All --removemake --cleanafter --save
@@ -250,3 +245,8 @@
       become: no
       ansible.builtin.shell: yay -S --noconfirm vesktop
       when: vesktop_check.rc != 0
+
+    - name: re-enable need for password for pacman
+      file:
+        path: /etc/sudoers.d/temp_allow_no_pswd_pacman
+        state: absent
