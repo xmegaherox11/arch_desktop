@@ -218,11 +218,11 @@
 #      when: emudeck_check.rc != 0
     
     - name: Install Jellyfin
+      become: no
       yay: 
         name: jellyfin-media-player
         state: present  
-  #    become: no
-  #    become_user: "{{ user_name }}"
+
   #    ansible.builtin.shell: yay -S --noconfirm jellyfin
   #    when: jellyfin_check.rc != 0
 
