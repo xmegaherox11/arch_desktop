@@ -50,68 +50,6 @@
       args:
         executable: /usr/bin/bash
 
-    - name: Install Drivers
-      pacman:
-        name:
-          - htop 
-          - libarchive
-          - pipewire # audio
-          - pipewire-pulse # audio
-          - blueman # bluetooth
-          - bluez # bluetooth
-          - bluez-utils # bluetooth
-          - brightnessctl # brightness
-          - cups
-          - base-devel
-          - git
-          - ansible
-          - mesa
-          - lib32-mesa
-          - vulkan-radeon
-          - lib32-vulkan-radeon
-          - libva-mesa-driver
-          - lib32-libva-mesa-driver
-          - libva-utils
-
-    - name: Install Hyprland Stuff
-      pacman:
-        name:
-          - hyprland # hyprland
-          - neovim # text editor
-          - kitty # terminal
-          - rofi # app launcher      
-          - thunar # file browser
-          - thunar-archive-plugin  # file browser archive
-          - hyprpaper # wallpaper
-          - hyprlock # lockscreen
-          - waybar # top bar
-          - nwg-look # theme for gtk apps
-          - swaync # notification tool
-          - hypridle # idle
-          - hyprcursor # cursor
-          - hyprsunset # blue light filter
-          - pipewire # screen sharing
-          - xdg-desktop-portal-hyprland # screen sharing
-          - starship # terminal theming
-          - ttf-cascadia-code-nerd # font
-          - kdegraphics-thumbnailers # thumbnails in dolphin
-        state: present
-
-    - name: Install Software
-      pacman:
-        name:
-         - rclone
-       #  - gimp
-         - vlc
-         - libreoffice-fresh
-         - nextcloud-client
-         - lutris
-         - bitwarden
-         - firefox
-         - steam
-        # - chromium
-        state: present
-
     - name: Ensure .bash_profile contains Hyprland autostart
       become: true
       lineinfile:
@@ -158,65 +96,62 @@
     - name: Set the system keyboard layout to German
       command:
         cmd: localectl set-keymap de
-
-    - name: Check if omega folder exists
-      stat:
-        path: "/home/{{ user_name }}/omega"
-      register: omega_folder
-    
-    - name: Create omega folder if it does not exist
-      file:
-        path: "/home/{{ user_name }}/omega"
-        state: directory
-        mode: '0755'
-        owner: "{{ user_name }}"
-        group: "{{ user_name }}"
-      when: not omega_folder.stat.exists
-
-    - name: Check contents of omega folder
-      find:
-        paths: "/home/{{ user_name }}/omega"
-        file_type: any
-      register: omega_folder_contents
-
-    - name: Ensure unzip is installed
-      package:
-        name: unzip
-        state: present
-      when: not omega_folder.stat.exists
-
-    - name: Download omega linux-x64.zip using curl
-      shell: |
-        curl -L https://github.com/duelists-unite/omega-releases/releases/download/Latest/linux-x64.zip -o /tmp/linux-x64.zip
-      args:
-        creates: /tmp/linux-x64.zip
-      when: omega_folder_contents.matched == 0
-
-    - name: Unzip omega archive into user home directory
-      unarchive:
-        src: /tmp/linux-x64.zip
-        dest: "/home/{{ user_name }}/omega"
-        remote_src: yes
-        creates: "/home/{{ user_name }}/omega"
-      become: yes
-      become_user: "{{ user_name }}"
-      when: omega_folder_contents.matched == 0
     
     - name: Install AUR packages
       yay:
         name: "{{ item }}"
         state: present
       loop:
+        - rclone
+        - gimp
+        - vlc
+        - libreoffice-fresh
+        - nextcloud-client
+        - lutris
+        - bitwarden
+        - steam
         - jellyfin-media-player
         - finamp
         - vesktop
+        - ygo-omega
+        - firefox
+        - htop 
+        - libarchive
+        - pipewire # audio
+        - pipewire-pulse # audio
+        - blueman # bluetooth
+        - bluez # bluetooth
+        - bluez-utils # bluetooth
+        - brightnessctl # brightness
+        - cups
+        - base-devel
+        - git
+        - ansible
+        - mesa
+        - lib32-mesa
+        - vulkan-radeon
+        - lib32-vulkan-radeon
+        - libva-mesa-driver
+        - lib32-libva-mesa-driver
+        - libva-utils
+        - hyprland # hyprland
+        - neovim # text editor
+        - kitty # terminal
+        - rofi # app launcher      
+        - thunar # file browser
+        - thunar-archive-plugin  # file browser archive
+        - hyprpaper # wallpaper
+        - hyprlock # lockscreen
+        - waybar # top bar
+        - nwg-look # theme for gtk apps
+        - swaync # notification tool
+        - hypridle # idle
+        - hyprcursor # cursor
+        - hyprsunset # blue light filter
+        - pipewire # screen sharing
+        - xdg-desktop-portal-hyprland # screen sharing
+        - starship # terminal theming
+        - ttf-cascadia-code-nerd # font
+        - kdegraphics-thumbnailers # thumbnails in dolphin
       loop_control:
         label: "{{ item }}"
-
-
-
-
-    - name: re-enable need for password for pacman
-      file:
-        path: /etc/sudoers.d/temp_allow_no_pswd_pacman
-        state: absent
