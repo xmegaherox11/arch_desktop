@@ -55,6 +55,7 @@
         - rclone
         - gimp
         - vlc
+        - emudeck
         - libreoffice-fresh
         - nextcloud-client
         - lutris
