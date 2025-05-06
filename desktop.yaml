@@ -187,6 +187,12 @@
         group: "{{ user_name }}"
       when: not omega_folder.stat.exists
 
+    - name: Check contents of omega folder
+      find:
+        paths: "/home/{{ user_name }}/omega"
+        file_type: any
+      register: omega_folder_contents
+
     - name: Ensure unzip is installed
       package:
         name: unzip
@@ -198,7 +204,7 @@
         curl -L https://github.com/duelists-unite/omega-releases/releases/download/Latest/linux-x64.zip -o /tmp/linux-x64.zip
       args:
         creates: /tmp/linux-x64.zip
-      when: not omega_folder.stat.exists
+      when: omega_folder_contents.matched == 0
 
     - name: Unzip omega archive into user home directory
       unarchive:
@@ -208,19 +214,19 @@
         creates: "/home/{{ user_name }}/omega"
       become: yes
       become_user: "{{ user_name }}"
-      when: not omega_folder.stat.exists
+      when: omega_folder_contents.matched == 0
 
-    - name: Check if emudeck is installed
-      ansible.builtin.shell: pacman -Qi emudeck
-      register: emudeck_check
-      failed_when: false
-      changed_when: false
+#    - name: Check if emudeck is installed
+#      ansible.builtin.shell: pacman -Qi emudeck
+#      register: emudeck_check
+#      failed_when: false
+#      changed_when: false
     
-    - name: Install emudeck via yay if not installed
-      ansible.builtin.shell: yay -S --noconfirm emudeck
-      args:
-        executable: /bin/bash
-      when: emudeck_check.rc != 0
+#    - name: Install emudeck via yay if not installed
+#      ansible.builtin.shell: yay -S --noconfirm emudeck
+#      args:
+#        executable: /bin/bash
+#      when: emudeck_check.rc != 0
 
     - name: Check if jellyfin is installed
       ansible.builtin.shell: pacman -Qi jellyfin
