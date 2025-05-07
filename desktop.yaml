@@ -99,6 +99,7 @@
         - hyprland # hyprland
         - neovim # text editor
         - kitty # terminal
+        - pokemon-colorscripts-git
         - wofi # app launcher      
         - thunar # file browser
         - thunar-archive-plugin  # file browser archive
