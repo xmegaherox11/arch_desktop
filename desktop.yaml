@@ -120,3 +120,18 @@
         - bibata-cursor-theme
       loop_control:
         label: "{{ item }}"
+
+    - name: Find all stow package directories in ./dotfiles
+      find:
+        paths: "{{ playbook_dir }}/dotfiles"
+        file_type: directory
+        depth: 1
+      register: stow_packages
+    
+    - name: Stow each dotfiles package to $HOME
+      stow:
+        state: present
+        package: "{{ item.path | basename }}"
+        dir: "{{ playbook_dir }}/dotfiles"
+      loop: "{{ stow_packages.files }}"
+
