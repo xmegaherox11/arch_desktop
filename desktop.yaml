@@ -59,17 +59,6 @@
         - rclone
         - gimp
         - vlc
-        - citron
-        - pcsx2-git
-        - epsxe
-        - mgba
-        - snes9x
-        - rpcs3
-        - mupen64plus
-        - dolphin-emu
-        - fceux
-        - steam-rom-manager-bin
-        - minecraft-launcher
         - libreoffice-fresh
         - nextcloud-client
         - lutris
@@ -118,6 +107,17 @@
         - ttf-cascadia-code-nerd # font
         - kdegraphics-thumbnailers # thumbnails in dolphin
         - bibata-cursor-theme
+        - pcsx2
+        - citron
+        - epsxe
+        - mgba
+        - snes9x
+        - rpcs3
+        - mupen64plus
+        - dolphin-emu
+        - fceux
+        - steam-rom-manager-bin
+        - minecraft-launcher
       loop_control:
         label: "{{ item }}"
 
