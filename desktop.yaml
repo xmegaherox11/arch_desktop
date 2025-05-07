@@ -95,10 +95,11 @@
         - libva-mesa-driver
         - lib32-libva-mesa-driver
         - libva-utils
+        - tmux
         - hyprland # hyprland
         - neovim # text editor
         - kitty # terminal
-        - rofi # app launcher      
+        - wofi # app launcher      
         - thunar # file browser
         - thunar-archive-plugin  # file browser archive
         - hyprpaper # wallpaper
