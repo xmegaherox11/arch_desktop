@@ -51,13 +51,16 @@
         name: "{{ item }}"
         state: present
       loop:
+        - base-devel
+        - git
+        - ansible
         - stow
         - nano
         - rclone
         - gimp
         - vlc
         - citron
-        - pcsx2
+        - pcsx2-git
         - epsxe
         - mgba
         - snes9x
@@ -86,9 +89,6 @@
         - bluez-utils # bluetooth
         - brightnessctl # brightness
         - cups
-        - base-devel
-        - git
-        - ansible
         - mesa
         - lib32-mesa
         - vulkan-radeon
