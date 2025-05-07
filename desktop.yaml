@@ -51,6 +51,7 @@
         name: "{{ item }}"
         state: present
       loop:
+        - stow
         - nano
         - rclone
         - gimp
