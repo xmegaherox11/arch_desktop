@@ -56,7 +56,7 @@
         - rclone
         - gimp
         - vlc
-        - ryujinx
+        #- ryujinx
         - pcsx2
         - epsxe
         - mgba
