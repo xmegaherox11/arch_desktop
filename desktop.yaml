@@ -112,7 +112,7 @@
         - duckstation
         - mgba
         - snes9x
-        - rpcs3
+        - rpcs3-bin
         - mupen64plus
         - dolphin-emu
         - fceux
