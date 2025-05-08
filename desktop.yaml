@@ -108,6 +108,7 @@
         - kdegraphics-thumbnailers # thumbnails in dolphin
         - bibata-cursor-theme
         - catppuccin-gtk-theme-mocha
+        - nwglook
         - pcsx2
         - citron
         - duckstation
