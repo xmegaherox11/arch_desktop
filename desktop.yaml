@@ -101,6 +101,7 @@
         - hypridle # idle
         - hyprcursor # cursor
         - hyprsunset # blue light filter
+        - hyprshot
         - pipewire # screen sharing
         - xdg-desktop-portal-hyprland # screen sharing
         - starship # terminal theming
