@@ -131,11 +131,6 @@
         depth: 1
       register: stow_packages
     
-    - name: Debug — list all found stow packages
-      debug:
-        msg: "Found package: {{ item.path | basename }}"
-      loop: "{{ stow_packages.files }}"
-    
     - name: Stow each dotfiles package to /home/{{ user_name }}
       stow:
         state: present
