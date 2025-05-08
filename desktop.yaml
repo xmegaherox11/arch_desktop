@@ -107,6 +107,7 @@
         - ttf-cascadia-code-nerd # font
         - kdegraphics-thumbnailers # thumbnails in dolphin
         - bibata-cursor-theme
+        - catppuccin-gtk-theme-mocha
         - pcsx2
         - citron
         - duckstation
