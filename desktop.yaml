@@ -54,7 +54,7 @@
         - base-devel
         - git
         - ansible
-        - stow
+        - stow-dotfiles
         - nano
         - rclone
         - gimp
