@@ -1,0 +1,70 @@
+- name: Arch Linux AUR-only desktop setup
+  hosts: localhost
+  become: true
+  vars:
+    user_name: xmegaherox11
+
+  tasks:
+    - name: Enable multilib repository and uncomment mirrorlist
+      blockinfile:
+        path: /etc/pacman.conf
+        block: |
+          [multilib]
+          Include = /etc/pacman.d/mirrorlist
+        marker: "# {mark} MULTILIB REPO"
+
+    - name: Update package databases and system
+      pacman:
+        update_cache: yes
+        upgrade: yes
+        force: yes
+
+    - name: disable need for password for pacman to allow yay install
+      lineinfile:
+        path: /etc/sudoers.d/temp_allow_no_pswd_pacman
+        state: present
+        line: "ALL ALL=NOPASSWD: /usr/bin/pacman"
+        validate: /usr/sbin/visudo -cf %s
+        create: yes
+
+    - name: git clone yay-bin repo in to /tmp
+      become: no
+      git:
+        repo: 'https://aur.archlinux.org/yay-bin.git'
+        dest: /tmp/yay-bin
+        clone: yes
+
+    - name: Install yay using makepkg
+      become: no
+      shell: makepkg -si --noconfirm
+      args:
+        chdir: /tmp/yay-bin
+
+    - name: set yay options to cleanafter package installation
+      become: no
+      shell: yay -Y --answerclean All --removemake --cleanafter --save
+      args:
+        executable: /usr/bin/bash
+
+    - name: Install AUR packages
+      yay:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - base-devel
+        - git
+        - ansible
+        - python
+        - nano
+        - ml4w-hyprland-git
+      loop_control:
+        label: "{{ item }}"
+
+    - name: Clone pokimg repository into .config
+      git:
+        repo: 'https://github.com/FuzzyGrim/pokimg.git'
+        dest: '~/.config/pokimg'
+        version: master
+        update: yes
+        force: no
+        ref: master
