@@ -54,6 +54,7 @@
         - base-devel
         - git
         - ansible
+        - python
         - stow-dotfiles
         - nano
         - rclone
