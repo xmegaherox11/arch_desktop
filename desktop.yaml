@@ -110,6 +110,7 @@
         - bibata-cursor-theme
         - catppuccin-gtk-theme-mocha
         - nwglook
+        - plymouth # boot splash screen
         - pcsx2
         - citron
         - duckstation
@@ -139,4 +140,28 @@
         target: "/home/{{ user_name }}"
       loop: "{{ stow_packages.files }}"
 
+    - name: Get root device
+      command: findmnt -no SOURCE /
+      register: root_device
 
+    - name: Get PARTUUID of root device
+      command: blkid -s PARTUUID -o value {{ root_device.stdout }}
+      register: root_partuuid
+
+    - name: Set systemd-boot timeout to 0
+      lineinfile:
+        path: /boot/loader/loader.conf
+        regexp: '^timeout'
+        line: 'timeout 0'
+        create: yes
+        mode: '0644'
+
+    - name: Set kernel options with BTRFS subvolume
+      lineinfile:
+        path: "/boot/loader/entries/arch.conf"
+        regexp: '^options'
+        line: >-
+          options root=PARTUUID={{ root_partuuid.stdout }} rw rootflags=subvol=@
+          quiet splash loglevel=3 rd.systemd.show_status=false vt.global_cursor_default=0
+        create: no
+        mode: '0644'
