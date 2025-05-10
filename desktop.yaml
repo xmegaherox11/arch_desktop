@@ -109,6 +109,7 @@
         - kdegraphics-thumbnailers # thumbnails in dolphin
         - bibata-cursor-theme
         - catppuccin-gtk-theme-mocha
+        - wlogout
         - nwglook
         - plymouth # boot splash screen
         - pcsx2
