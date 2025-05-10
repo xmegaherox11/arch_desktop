@@ -2,7 +2,7 @@ eval "$(starship init zsh)"
 export EDITOR="nvim"
 export SUDO_EDITOR="$EDITOR"
 export PGHOST="/var/run/postgresql"
-
+$HOME/.config/pokimg/pokimg
 export PATH=$PATH:/usr/local/go/bin
 
 HISTFILE=~/.history
