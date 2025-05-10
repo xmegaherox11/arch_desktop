@@ -89,7 +89,6 @@
         - hyprland # hyprland
         - neovim # text editor
         - kitty # terminal
-        - pokemon-colorscripts-git
         - wofi # app launcher      
         - thunar # file browser
         - thunar-archive-plugin  # file browser archive
@@ -165,3 +164,12 @@
           quiet splash loglevel=3 rd.systemd.show_status=false vt.global_cursor_default=0
         create: no
         mode: '0644'
+
+    - name: Clone pokimg repository into .config
+      git:
+        repo: 'https://github.com/FuzzyGrim/pokimg.git'
+        dest: '~/.config/pokimg'
+        version: master
+        update: yes
+        force: no
+        ref: master
